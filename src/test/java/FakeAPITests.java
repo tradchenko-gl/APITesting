@@ -3,6 +3,7 @@ import config.FakeAPIConfig;
 import org.junit.Test;
 
 import static io.restassured.RestAssured.*;
+import static org.hamcrest.Matchers.equalTo;
 
 public class FakeAPITests extends FakeAPIConfig {
 
@@ -43,6 +44,32 @@ public class FakeAPITests extends FakeAPIConfig {
 
     @Test
     public void deleteProduct() {
+        given()
+                .pathParam("product_id", 9)
+                .when()
+                .delete(FakeAPIEndPoints.SINGLE_PRODUCT)
+                .then();
+
+    }
+
+    @Test
+    public void getProductsInCategory() {
+        given()
+                .pathParam("category", "jewelery")
+                .when()
+                .get(FakeAPIEndPoints.PRODUCTS_IN_CATEGORY)
+                .then();
+    }
+
+    @Test
+    public void checkProductCategory() {
+        given()
+                .pathParam("product_id", 5)
+                .when()
+                .get(FakeAPIEndPoints.SINGLE_PRODUCT)
+                .then()
+                .body("category", equalTo("jewelery"))
+                .body("title", equalTo("John Hardy Women's Legends Naga Gold & Silver Dragon Station Chain Bracelet"));
 
     }
 
