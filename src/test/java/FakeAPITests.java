@@ -2,6 +2,7 @@ import config.FakeAPIEndPoints;
 import config.FakeAPIConfig;
 import org.junit.Test;
 
+
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.equalTo;
 
@@ -61,15 +62,15 @@ public class FakeAPITests extends FakeAPIConfig {
                 .then();
     }
 
-    @Test
-    public void checkProductCategory() {
+    @org.testng.annotations.Test(dataProvider = "IDCategoryNameTests", dataProviderClass = TestData.class)
+    public void checkProductCategory(String id, String category, String title) {
         given()
-                .pathParam("product_id", 5)
+                .pathParam("product_id", id)
                 .when()
                 .get(FakeAPIEndPoints.SINGLE_PRODUCT)
                 .then()
-                .body("category", equalTo("jewelery"))
-                .body("title", equalTo("John Hardy Women's Legends Naga Gold & Silver Dragon Station Chain Bracelet"));
+                .body("category", equalTo(category))
+                .body("title", equalTo(title));
 
     }
 
